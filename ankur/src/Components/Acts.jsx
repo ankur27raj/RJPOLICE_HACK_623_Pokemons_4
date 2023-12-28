@@ -1,5 +1,5 @@
 const fetchCrimeData = async (crimeReport, setResult) => {
-  const apiKey = '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';
+  const apiKey = process.env.OPENAI_APIKEY;
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     try {
