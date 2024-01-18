@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import Tesseract from 'tesseract.js';
 
 import {
@@ -23,40 +23,75 @@ const FirForm = () => {
   const [textToSummerize, setTextToSummerize] = useState('');
   const [crimeReport, setCrimeReport] = useState('');
   const [result, setResult] = useState([]);
-  // const [sec, setSec] = useState(true);
-  // const [toggle, setToggle] = useState(false);
+  const a=useRef(false);
+  const b=useRef(false);
+  const c=useRef(false);
   const [option, setOption]=useState("Image");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if(option==="Image") await translate(translatedText,setTextToSummerize);
-    else setTextToSummerize(formData.Info);
-    console.log(textToSummerize);
-    await summerizeData(textToSummerize,setCrimeReport);
-    await fetchCrimeData(crimeReport,setResult);
-  };
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
-
-  //   // const response = await axios.get('https://drive.google.com/file/d/19BCMDZsQ8bEvO3NAvgDSfktw_6l1HEJm/view?usp=drive_link');
   //   if(option==="Image") await translate(translatedText,setTextToSummerize);
   //   else setTextToSummerize(formData.Info);
+  //   console.log(textToSummerize);
+  //   await summerizeData(textToSummerize,setCrimeReport);
+  //   await fetchCrimeData(crimeReport,setResult);
   // };
-  
-  // useEffect(()=>{
-  //   async function f1() {
-  //     await summerizeData(textToSummerize,setCrimeReport);
-  // }
-  // f1();
-  // },[textToSummerize])
-  
-  // useEffect(async ()=>{
-  //   async function f2() {
-  //     const res1 = await fetchCrimeData(crimeReport,setResult);
-  // }
-  // f2();
-  // },[crimeReport])
-  // useEffect(()=>{formData.Sections = result; console.log(formData.Sections)},[result])
+
+
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    if (option === "Image") {
+      translate(translatedText,setTextToSummerize);
+    } else {
+      setTextToSummerize(formData.Info);
+    }
+  } catch (error) {
+    console.error("Error during translation:", error);
+  }
+};
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      if(a.current) await summerizeData(textToSummerize,setCrimeReport);
+      a.current=true;
+    } catch (error) {
+      console.error("Error during summarization:", error);
+    }
+  };
+  fetchData();
+}, [textToSummerize]);
+
+useEffect(() => {
+  const fetchCrime = async () => {
+    try {
+      if(b.current) await fetchCrimeData(crimeReport,setResult);
+      b.current=true;
+    } catch (error) {
+      console.error("Error fetching crime data:", error);
+    }
+  };
+  fetchCrime();
+}, [crimeReport]);
+
+useEffect(() => {
+  if(c.current) {
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    Sections: result,
+  }))
+};
+  c.current=true;
+}, [result]);
+
+
+
+
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -316,7 +351,7 @@ const FirForm = () => {
           <>
             <Section>7. Sections/Acts</Section>
               {result.map((acts, index) => (
-              <li key={index}>{`${index + 1}. ${acts}`}</li>
+              index&&<li key={index}>{`${index}. ${acts}`}</li>
             ))}
             
           </>
