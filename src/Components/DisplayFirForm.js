@@ -36,7 +36,7 @@ import Loadpage from './Loadpage';
       setloading(true);
       const getdata = async () => {   
         try{
-          const res=await fetch(`http://localhost:8000/api/v1/getfir/${x}`);
+          const res=await fetch(`https://rjpolice-hack-623-pokemons-4-1.onrender.com/api/v1/getfir/${x}`);
           const data = await res.json();
           console.log(data.data[0]);
           setfirdata(data.data[0]);
