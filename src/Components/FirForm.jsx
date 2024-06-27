@@ -147,7 +147,7 @@ useEffect(() => {
 
   async function submitHandler(e){
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/api/v1/filefir",{
+    const response = await fetch("https://rjpolice-hack-623-pokemons-4-1.onrender.com/api/v1/filefir",{
       method:'POST',
       body:JSON.stringify(formData),
       headers:{
