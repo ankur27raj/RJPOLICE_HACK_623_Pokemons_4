@@ -28,18 +28,6 @@ const FirForm = () => {
   const c=useRef(false);
   const [option, setOption]=useState("Image");
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if(option==="Image") await translate(translatedText,setTextToSummerize);
-  //   else setTextToSummerize(formData.Info);
-  //   console.log(textToSummerize);
-  //   await summerizeData(textToSummerize,setCrimeReport);
-  //   await fetchCrimeData(crimeReport,setResult);
-  // };
-
-
-
-
 const handleSubmit = async (e) => {
   e.preventDefault();
 
